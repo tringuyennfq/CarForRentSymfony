@@ -7,4 +7,10 @@
 /public/bundles/
 /var/
 /vendor/
+.phpunit.cache
+/.idea/
+*.phar
+.env
+.phpunit.result.cache
+psalm.xml
 ###< symfony/framework-bundle ###

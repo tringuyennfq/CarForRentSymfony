@@ -1,0 +1,14 @@
+{% block body %}
+    {% if name %}
+        <h1>Movie: {{ name }}</h1>
+        <h1>Hot Title: {{ hotTitle }}</h1>
+    {% else %}
+        <h1>No Movie</h1>
+        <h1>Hot Title: {{ hotTitle }}</h1>
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
