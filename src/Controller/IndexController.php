@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Car;
 use App\Repository\CarRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +19,6 @@ class IndexController extends AbstractController
     public function index(): Response
     {
         $carList = $this->carRepository->findAll();
-        return $this->render('index.html.twig',['cars' => $carList]);
+        return $this->render('index.html.twig', ['cars' => $carList]);
     }
 }

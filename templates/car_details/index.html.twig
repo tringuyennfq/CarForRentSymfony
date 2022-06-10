@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <li><img src="{{ car.imagePath }}" alt="car_img" width="250px"></li>
+    <li><img src="{{ asset('/assets/car_img/'~car.imagePath~'') }}" alt="car_img" width="250px"></li>
     <li>Name: {{ car.name }}</li>
     <li>Brand: {{ car.brand }}</li>
     <li>Price: {{ car.price }} $</li>

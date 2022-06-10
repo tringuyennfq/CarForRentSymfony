@@ -4,7 +4,7 @@
 {% for car in cars %}
     <li>
         <a href="/car/{{ car.id }}">{{ car.brand }} - {{ car.name }}</a>
-        <img src="{{ car.imagePath }}" alt="car_img" width="250px">
+        <img src="{{ asset('/assets/car_img/'~car.imagePath~'') }}" alt="car_img" width="250px">
     </li>
 
 {% endfor %}
