@@ -1,14 +1,11 @@
+{% extends "base.html.twig" %}
 {% block body %}
-    {% if name %}
-        <h1>Movie: {{ name }}</h1>
-        <h1>Hot Title: {{ hotTitle }}</h1>
-    {% else %}
-        <h1>No Movie</h1>
-        <h1>Hot Title: {{ hotTitle }}</h1>
-    {% endif %}
+    <h1>Car List</h1>
+{% for car in cars %}
+    <li>
+        <a href="/car/{{ car.id }}">{{ car.brand }} - {{ car.name }}</a>
+        <img src="{{ car.imagePath }}" alt="car_img" width="250px">
+    </li>
+
+{% endfor %}
 {% endblock %}
-
-{% block title %}
-
-{% endblock %}
-
