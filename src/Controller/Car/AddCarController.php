@@ -27,13 +27,19 @@ class AddCarController extends AbstractController
         if ($addCarForm->isSubmitted() && $addCarForm->isValid()) {
             $isAddCarSuccess =  $this->carService->addCar($car, $addCarForm->get('imagePath')->getData());
             if ($isAddCarSuccess != null) {
-                $message = 'Car created successfully!';
+                $this->addFlash(
+                    'message',
+                    'Car created!'
+                );
+            } else {
+                $this->addFlash(
+                    'message',
+                    'Car not created!'
+                );
             }
-            $message = 'Car not created!';
         }
         return $this->render('/add_car/index.html.twig', [
             'addCarForm' => $addCarForm->createView(),
-            'message' => $message ?? '',
         ]);
     }
 }
