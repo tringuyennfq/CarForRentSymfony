@@ -13,7 +13,7 @@ class ProfileController extends AbstractController
     public function index(UserService $userService): Response
     {
         $user = $this->getUser();
-        return $this->render('admin/index.html.twig', [
+        return $this->render('user/profile/index.html.twig', [
             'userEmail' => $user->getEmail() ?? '',
         ]);
     }
