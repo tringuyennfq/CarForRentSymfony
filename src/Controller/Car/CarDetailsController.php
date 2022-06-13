@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Car;
 
 use App\Entity\Car;
 use App\Repository\CarRepository;
