@@ -11,6 +11,6 @@ class UserController extends AbstractController
     #[Route('/api/user', name: 'app_api_user')]
     public function index(): Response
     {
-        return $this->json(['Message' => 'Hello User'], 200);
+        return $this->json(['Message' => 'Hello User'], Response::HTTP_OK);
     }
 }
