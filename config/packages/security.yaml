@@ -43,9 +43,6 @@ security:
                 check_path: login
                 enable_csrf: true
                 default_target_path: login
-            json_login:
-                # api_login is a route we will create below
-                check_path: api_login
             logout:
                 path: logout
                 csrf_token_generator: security.csrf.token_manager

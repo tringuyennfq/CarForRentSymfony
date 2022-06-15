@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait JsonResponseTrait
 {
-    protected function error(mixed $message, int $statusCode = 400): JsonResponse
+    protected function error(string $message, int $statusCode = 400): JsonResponse
     {
         $result = [
             'status' => 'error',
@@ -14,6 +14,7 @@ trait JsonResponseTrait
         ];
         return new JsonResponse($result, $statusCode);
     }
+
     protected function success(mixed $data, int $statusCode = 200): JsonResponse
     {
         $result = [
@@ -21,6 +22,5 @@ trait JsonResponseTrait
             'data' => $data
         ];
         return new JsonResponse($result, $statusCode);
-}
-
+    }
 }
