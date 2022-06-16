@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,6 +25,20 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\OneToMany(mappedBy: 'createdUser', targetEntity: Car::class)]
+    private $cars;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,5 +108,59 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setCreatedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getCreatedUser() === $this) {
+                $car->setCreatedUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 }

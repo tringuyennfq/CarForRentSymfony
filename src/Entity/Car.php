@@ -38,7 +38,10 @@ class Car extends AbstractEntity
     private $createdAt;
 
     #[ORM\OneToOne(targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    private $thumbnailId;
+    private $thumbnail;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
+    private $createdUser;
 
     public function getId(): ?int
     {
@@ -141,14 +144,26 @@ class Car extends AbstractEntity
         return $this;
     }
 
-    public function getThumbnailId(): ?Image
+    public function getThumbnail(): ?Image
     {
-        return $this->thumbnailId;
+        return $this->thumbnail;
     }
 
-    public function setThumbnailId(?Image $thumbnailId): self
+    public function setThumbnail(?Image $thumbnail): self
     {
-        $this->thumbnailId = $thumbnailId;
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    public function getCreatedUser(): ?User
+    {
+        return $this->createdUser;
+    }
+
+    public function setCreatedUser(?User $createdUser): self
+    {
+        $this->createdUser = $createdUser;
 
         return $this;
     }

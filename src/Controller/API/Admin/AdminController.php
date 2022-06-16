@@ -2,16 +2,19 @@
 
 namespace App\Controller\API\Admin;
 
+use App\Traits\JsonResponseTrait;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route('/api/admin', name: 'app_api_admin')]
+    use JsonResponseTrait;
+    #[Route('/api/admin', name: 'api_admin')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(): JsonResponse
     {
-        return $this->json(['Message' => 'Hello Admin'], Response::HTTP_OK);
+        return $this->success(['message' => 'Hello admin']);
     }
 }
