@@ -4,14 +4,11 @@ namespace App\Transformer;
 
 use App\Entity\User;
 
-class UserTransformer
+class UserTransformer extends AbstractTransformer
 {
+    const ATTRIBUTE = ['id', 'name', 'name'];
     public function toArray(User $user): array
     {
-        return [
-            'id' => $user->getId(),
-            'email' => $user->getEmail(),
-            'name' => $user->getName(),
-        ];
+        return $this->transform($user, self::ATTRIBUTE);
     }
 }

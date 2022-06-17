@@ -4,17 +4,15 @@ namespace App\Transformer;
 
 use App\Entity\Car;
 
-class CarTransformer
+class CarTransformer extends AbstractTransformer
 {
+    const ATTRIBUTE = ['name', 'brand', 'color', 'price', 'seats'];
     public function toArray(Car $car): array
     {
-        return [
-            'name' => $car->getName(),
-            'brand' => $car->getBrand(),
-            'price' => $car->getPrice(),
-            'thumbnail' => $car->getThumbnail()->getPath(),
-            'createdUser' => $car->getCreatedUser()->getEmail(),
-        ];
+        $result = $this->transform($car, self::ATTRIBUTE);
+        $result['thumbnail'] = $car->getThumbnail()->getPath();
+        $result['createdUser'] = $car->getCreatedUser()->getEmail();
+        return $result;
     }
 
     public function toArrayList(array $cars): array

@@ -4,13 +4,12 @@ namespace App\Transformer;
 
 use App\Entity\Image;
 
-class ImageTransformer
+class ImageTransformer extends AbstractTransformer
 {
+    const ATTRIBUTES = ['id','path'];
     public function toArray(Image $image): array
     {
-        return [
-            'id' => $image->getId(),
-            'path' => $image->getPath(),
-        ];
+        $result = $this->transform($image, self::ATTRIBUTES);
+        return $result;
     }
 }

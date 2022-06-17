@@ -8,7 +8,7 @@ class BaseRequest
     {
         foreach ($array as $key => $value) {
             $action = 'set' . ucfirst($key);
-            if (!method_exists($this, $action)) {
+            if (!method_exists($this, $action) || $value == '') {
                 continue;
             }
             $this->{$action}($value);
