@@ -4,7 +4,7 @@ namespace App\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CarListingRequest extends BaseRequest
+class CarFilterRequest extends BaseRequest
 {
     const ORDER_BY = ['createdAt', 'price'];
     const ORDER_TYPE = ['asc', 'desc'];

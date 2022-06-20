@@ -19,18 +19,16 @@ class ExceptionListener
         $exception = $event->getThrowable();
         $response = $this->error('Internal error', Response::HTTP_INTERNAL_SERVER_ERROR);
         if ($exception instanceof HttpExceptionInterface) {
-            $response = $this->error($exception->getMessage(), $exception->getStatusCode());
+            $response = $this->error($exception->getMessage(), $exception->getCode());
         }
         if ($exception instanceof AccessDeniedHttpException) {
-            $response = $this->error($exception->getMessage(), $exception->getStatusCode());
+            $response = $this->error($exception->getMessage(), $exception->getCode());
         }
         if ($exception instanceof ValidatorException) {
             $response = $this->error('Bad request', $exception->getCode());
         } elseif ($exception instanceof Exception) {
             $response = $this->error($exception->getMessage(), $exception->getCode());
         }
-
-
         $event->setResponse($response);
     }
 }

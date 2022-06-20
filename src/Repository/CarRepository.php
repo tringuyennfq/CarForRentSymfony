@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Car;
-use App\Request\CarListingRequest;
+use App\Request\CarFilterRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,7 +24,7 @@ class CarRepository extends BaseRepository
         parent::__construct($registry, Car::class, static::CAR_ALIAS);
     }
 
-    public function all(CarListingRequest $carListingRequest)
+    public function all(CarFilterRequest $carListingRequest)
     {
         $qb = $this->createQueryBuilder(static::CAR_ALIAS);
         $qb = $this->sortBy($qb, $carListingRequest->getOrderBy(), $carListingRequest->getOrderType());

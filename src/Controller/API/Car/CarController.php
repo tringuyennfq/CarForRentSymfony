@@ -3,9 +3,12 @@
 namespace App\Controller\API\Car;
 
 use App\Repository\CarRepository;
-use App\Request\CarListingRequest;
+use App\Request\AddCarRequest;
+use App\Request\CarFilterRequest;
+use App\Service\CarService;
 use App\Traits\JsonResponseTrait;
 use App\Transformer\CarTransformer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +30,7 @@ class CarController extends AbstractController
     #[Route('/api/cars/', name: 'api_list_car', methods: 'GET')]
     public function listCars(
         Request            $request,
-        CarListingRequest  $carListingRequest,
+        CarFilterRequest   $carListingRequest,
         ValidatorInterface $validator,
         CarRepository      $carRepository,
         CarTransformer     $carTransformer
@@ -40,5 +43,23 @@ class CarController extends AbstractController
         }
         $result = $carTransformer->toArrayList($carRepository->all($carListingRequest));
         return $this->success($result);
+    }
+
+    #[Route('/api/cars', name: 'api_add_car', methods: 'POST')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function addCar(
+        AddCarRequest      $addCarRequest,
+        Request            $request,
+        ValidatorInterface $validator,
+        CarService         $carService
+    ) {
+        $array = json_decode($request->getContent(), true);
+        $addCarRequest->fromArray($array);
+        $error = $validator->validate($addCarRequest);
+        if (count($error) > 0) {
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
+        }
+        $carService->addCar($addCarRequest);
+        return $this->success('Car added successfully', Response::HTTP_CREATED);
     }
 }
