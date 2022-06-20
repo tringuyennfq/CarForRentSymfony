@@ -2,20 +2,17 @@
 
 namespace App\EventListener;
 
+use App\Traits\JsonResponseTrait;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationFailureEvent;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationFailureListener
 {
+    use JsonResponseTrait;
 
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event): void
     {
-        $result = [
-            'status' => 'error',
-            'message' => 'Credentials invalid'
-        ];
-        $response = new JsonResponse($result, Response::HTTP_UNAUTHORIZED);
+        $response = $this->error('Credentials invalid', Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);
     }
 }
