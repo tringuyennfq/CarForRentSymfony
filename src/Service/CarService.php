@@ -52,12 +52,8 @@ class CarService
         $this->carRepository->add($car, true);
     }
 
-    public function deleteCar(int $id): void
+    public function deleteCar(Car $car): void
     {
-        $car = $this->carRepository->find($id);
-        if ($car == null) {
-            throw new ValidatorException(code: Response::HTTP_NOT_FOUND);
-        }
         $this->carRepository->remove($car, true);
     }
 
