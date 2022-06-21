@@ -19,6 +19,11 @@ class Image extends AbstractEntity
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

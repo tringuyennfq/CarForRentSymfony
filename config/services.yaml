@@ -2,7 +2,6 @@
 parameters:
 
 services:
-
   _defaults:
     autowire: true
     autoconfigure: true
@@ -23,3 +22,14 @@ services:
     class: App\EventListener\AuthenticationSuccessListener
     tags:
       - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+  Aws\S3\S3Client:
+    arguments:
+      - version: 'latest'
+        region: 'ap-southeast-1'
+        credentials:
+          key: '%env(S3_KEY_ID)%'
+          secret: '%env(S3_KEY_SECRET)%'
+  App\Manager\FileManager:
+    arguments:
+      $targetDirectory: '%kernel.project_dir%/public/upload/image/'
+      $bucketName: '%env(S3_BUCKET_NAME)%'

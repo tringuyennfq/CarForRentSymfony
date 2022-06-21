@@ -35,8 +35,8 @@ class CarController extends AbstractController
     {
         $data = $request->query->all();
         $carListingRequest->fromArray($data);
-        $error = $validator->validate($carListingRequest);
-        if (count($error) > 0) {
+        $errors = $validator->validate($carListingRequest);
+        if (!empty($errors)) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
         $result = $carTransformer->toArrayList($carRepository->all($carListingRequest));
@@ -62,8 +62,8 @@ class CarController extends AbstractController
     {
         $array = json_decode($request->getContent(), true);
         $addCarRequest->fromArray($array);
-        $error = $validator->validate($addCarRequest);
-        if (count($error) > 0) {
+        $errors = $validator->validate($addCarRequest);
+        if (!empty($errors)) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
         $carService->addCar($addCarRequest);
@@ -94,13 +94,13 @@ class CarController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
+        $car = $this->checkCarId($id, $carRepository);
         $array = json_decode($request->getContent(), true);
         $putCarRequest->fromArray($array);
-        $error = $validator->validate($putCarRequest);
-        if (count($error) > 0) {
+        $errors = $validator->validate($putCarRequest);
+        if (!empty($errors)) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
-        $car = $this->checkCarId($id, $carRepository);
         $carService->putCar($putCarRequest, $car);
         return $this->success('Car updated successfully', Response::HTTP_OK);
     }
@@ -116,11 +116,11 @@ class CarController extends AbstractController
         ValidatorInterface $validator,
     ): JsonResponse
     {
+        $car = $this->checkCarId($id, $carRepository);
         $array = json_decode($request->getContent(), true);
         $patchCarRequest->fromArray($array);
-        $error = $validator->validate($patchCarRequest);
-        $car = $this->checkCarId($id, $carRepository);
-        if (count($error) > 0) {
+        $errors = $validator->validate($patchCarRequest);
+        if (!empty($errors)) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
         $carService->patchCar($patchCarRequest, $car);

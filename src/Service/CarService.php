@@ -12,9 +12,7 @@ use App\Repository\ImageRepository;
 use App\Request\AddCarRequest;
 use App\Request\PatchCarRequest;
 use App\Request\PutCarRequest;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\Exception\ValidatorException;
 
 class CarService
 {

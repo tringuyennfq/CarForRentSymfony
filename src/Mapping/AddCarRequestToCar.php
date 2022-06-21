@@ -25,7 +25,6 @@ class AddCarRequestToCar
         $car->setDescription($addCarRequest->getDescription());
         $car->setYear($addCarRequest->getYear());
         $car->setSeats($addCarRequest->getSeats());
-        $car->setCreatedAt(new \DateTimeImmutable('now'));
         $car->setThumbnail($this->imageRepository->find($addCarRequest->getThumbnailId()));
         $car->setCreatedUser($createdUser);
         return $car;

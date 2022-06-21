@@ -2,7 +2,7 @@
 
 namespace App\Controller\User;
 
-use App\Service\UserService;
+use App\Manager\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

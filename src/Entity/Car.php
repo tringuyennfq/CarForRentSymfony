@@ -43,6 +43,11 @@ class Car extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     private $createdUser;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
