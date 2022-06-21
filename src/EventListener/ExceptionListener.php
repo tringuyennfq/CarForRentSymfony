@@ -17,7 +17,7 @@ class ExceptionListener
     public function onKernelException(ExceptionEvent $event)
     {
         $exception = $event->getThrowable();
-        $response = $this->error('Internal error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $response = $this->error('Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
         if ($exception instanceof HttpExceptionInterface) {
             $response = $this->error($exception->getMessage(), $exception->getCode());
         }
@@ -27,7 +27,7 @@ class ExceptionListener
         if ($exception instanceof ValidatorException) {
             $response = $this->error('Bad request', $exception->getCode());
         } elseif ($exception instanceof Exception) {
-            $response = $this->error($exception->getMessage(), $exception->getCode());
+            $response = $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         $event->setResponse($response);
     }

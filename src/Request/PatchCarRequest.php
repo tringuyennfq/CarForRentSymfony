@@ -21,20 +21,20 @@ class PatchCarRequest extends BaseRequest
     private $brand;
 
     #[Assert\Type('float')]
-    private float $price;
+    private ?float $price = null;
 
     #[Assert\Choice(choices: self::SEATS, message: 'Enter a valid seat type')]
     #[Assert\Type('integer')]
-    private int $seats;
+    private $seats;
 
     #[Assert\Type('integer')]
-    private int $year;
+    private $year;
 
     #[Assert\Type('integer')]
-    private int $thumbnailId;
+    private ?int $thumbnailId = null;
 
     #[Assert\Type('integer')]
-    private int $createdUserId;
+    private ?int $createdUserId = null;
 
     /**
      * @return mixed
@@ -101,84 +101,82 @@ class PatchCarRequest extends BaseRequest
     }
 
     /**
-     * @return float
+     * @return mixed
      */
-    public function getPrice(): float
+    public function getPrice()
     {
         return $this->price;
     }
 
     /**
-     * @param float $price
+     * @param mixed $price
      */
-    public function setPrice(float $price): void
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getSeats(): int
+    public function getSeats()
     {
         return $this->seats;
     }
 
     /**
-     * @param int $seats
+     * @param mixed $seats
      */
-    public function setSeats(int $seats): void
+    public function setSeats($seats): void
     {
         $this->seats = $seats;
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getYear(): int
+    public function getYear()
     {
         return $this->year;
     }
 
     /**
-     * @param int $year
+     * @param mixed $year
      */
-    public function setYear(int $year): void
+    public function setYear($year): void
     {
         $this->year = $year;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getThumbnailId(): int
+    public function getThumbnailId(): ?int
     {
         return $this->thumbnailId;
     }
 
     /**
-     * @param int $thumbnailId
+     * @param int|null $thumbnailId
      */
-    public function setThumbnailId(int $thumbnailId): void
+    public function setThumbnailId(?int $thumbnailId): void
     {
         $this->thumbnailId = $thumbnailId;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCreatedUserId(): int
+    public function getCreatedUserId(): ?int
     {
         return $this->createdUserId;
     }
 
     /**
-     * @param int $createdUserId
+     * @param int|null $createdUserId
      */
-    public function setCreatedUserId(int $createdUserId): void
+    public function setCreatedUserId(?int $createdUserId): void
     {
         $this->createdUserId = $createdUserId;
     }
-
-
 }

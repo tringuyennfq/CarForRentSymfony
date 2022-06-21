@@ -74,10 +74,12 @@ class CarController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function deleteCar(
         int        $id,
-        CarService $carService
+        CarService $carService,
+        CarRepository $carRepository
     ): JsonResponse
     {
-        $carService->deleteCar($id);
+        $car = $this->checkCarId($id, $carRepository);
+        $carService->deleteCar($car);
         return $this->success('Car deleted successfully', Response::HTTP_OK);
     }
 
@@ -117,10 +119,10 @@ class CarController extends AbstractController
         $array = json_decode($request->getContent(), true);
         $patchCarRequest->fromArray($array);
         $error = $validator->validate($patchCarRequest);
+        $car = $this->checkCarId($id, $carRepository);
         if (count($error) > 0) {
             throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
-        $car = $this->checkCarId($id, $carRepository);
         $carService->patchCar($patchCarRequest, $car);
         return $this->success('Car updated successfully', Response::HTTP_OK);
     }
@@ -129,7 +131,7 @@ class CarController extends AbstractController
     {
         $car = $carRepository->find($id);
         if ($car === null) {
-            throw new ValidatorException(Response::HTTP_NOT_FOUND);
+            throw new ValidatorException(code: Response::HTTP_BAD_REQUEST);
         }
         return $car;
     }
