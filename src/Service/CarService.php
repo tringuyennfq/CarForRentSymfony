@@ -24,11 +24,11 @@ class CarService
     private PatchCarRequestToCar $patchCarRequestToCar;
 
     public function __construct(
-        CarRepository         $carRepository,
-        ImageRepository       $imageRepository,
-        Security              $security,
-        AddCarRequestToCar    $addCarRequestToCar,
-        PutCarRequestToCar $putCarRequestToCar,
+        CarRepository        $carRepository,
+        ImageRepository      $imageRepository,
+        Security             $security,
+        AddCarRequestToCar   $addCarRequestToCar,
+        PutCarRequestToCar   $putCarRequestToCar,
         PatchCarRequestToCar $patchCarRequestToCar
     )
     {
@@ -40,7 +40,7 @@ class CarService
         $this->patchCarRequestToCar = $patchCarRequestToCar;
     }
 
-    public function addCar(AddCarRequest $addCarRequest): void
+    public function addCar(AddCarRequest $addCarRequest): Car
     {
         /**
          * @var User $createdUser
@@ -48,6 +48,7 @@ class CarService
         $createdUser = $this->security->getUser();
         $car = $this->addCarRequestToCar->mapping($addCarRequest, $createdUser);
         $this->carRepository->add($car, true);
+        return $car;
     }
 
     public function deleteCar(Car $car): void

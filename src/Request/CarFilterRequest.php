@@ -27,7 +27,7 @@ class CarFilterRequest extends BaseRequest
     private $brand = null;
 
     #[Assert\Choice(choices: self::SEATS, message: 'choose a valid seat type')]
-    #[Assert\Type('integer')]
+    #[Assert\Type(type:'integer',message: 'choose a valid seat type')]
     private $seats;
 
     #[Assert\Type('integer')]
@@ -113,37 +113,37 @@ class CarFilterRequest extends BaseRequest
      */
     public function setSeats($seats): void
     {
-        $this->seats = is_numeric($seats) ? (int)$seats : null ;
+        $this->seats = is_numeric($seats) ? (int)$seats : $seats;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getOffset()
+    public function getOffset(): int
     {
         return $this->offset;
     }
 
     /**
-     * @param mixed $offset
+     * @param int $offset
      */
-    public function setOffset($offset): void
+    public function setOffset(int $offset): void
     {
         $this->offset = $offset;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getLimit()
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
     /**
-     * @param mixed $limit
+     * @param int $limit
      */
-    public function setLimit($limit): void
+    public function setLimit(int $limit): void
     {
         $this->limit = $limit;
     }

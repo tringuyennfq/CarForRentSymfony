@@ -23,21 +23,21 @@ class AddCarRequest extends BaseRequest
     #[Assert\NotNull]
     private $brand;
 
-    #[Assert\Type('float')]
+    #[Assert\Type('numeric')]
     #[Assert\NotNull]
-    private float $price;
+    private $price;
 
     #[Assert\Choice(choices: self::SEATS, message: 'Enter a valid seat type')]
     #[Assert\Type('integer')]
     #[Assert\NotNull]
-    private int $seats;
+    private $seats;
 
     #[Assert\Type('integer')]
     #[Assert\NotNull]
-    private int $year;
+    private $year;
 
     #[Assert\Type('integer')]
-    private int $thumbnailId;
+    private $thumbnailId;
 
     /**
      * @return mixed
@@ -114,7 +114,7 @@ class AddCarRequest extends BaseRequest
     /**
      * @param float $price
      */
-    public function setPrice(float $price): void
+    public function setPrice($price): void
     {
         $this->price = $price;
     }
@@ -130,7 +130,7 @@ class AddCarRequest extends BaseRequest
     /**
      * @param int $seats
      */
-    public function setSeats(int $seats): void
+    public function setSeats($seats): void
     {
         $this->seats = $seats;
     }
@@ -146,7 +146,7 @@ class AddCarRequest extends BaseRequest
     /**
      * @param int $year
      */
-    public function setYear(int $year): void
+    public function setYear($year): void
     {
         $this->year = $year;
     }
@@ -162,7 +162,7 @@ class AddCarRequest extends BaseRequest
     /**
      * @param int $thumbnailId
      */
-    public function setThumbnailId(int $thumbnailId): void
+    public function setThumbnailId($thumbnailId): void
     {
         $this->thumbnailId = $thumbnailId;
     }

@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\Image;
 use App\Manager\FileManager;
 use App\Repository\ImageRepository;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageService
@@ -18,12 +20,16 @@ class ImageService
         $this->imageRepository = $imageRepository;
     }
 
-    public function upload(UploadedFile $file)
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function upload(UploadedFile $file): Image
     {
         $image = new Image();
         $imageURL = $this->fileManager->upload($file);
         $image->setPath($imageURL);
-        $this->imageRepository->add($image);
+        $this->imageRepository->add($image, true);
         return $image;
     }
 }
