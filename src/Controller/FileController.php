@@ -25,7 +25,7 @@ class FileController extends AbstractController
      * @throws NotFoundExceptionInterface
      */
     #[Route('/file', name: 'app_file',methods: 'POST')]
-//    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN')]
     public function uploadImage(
         ImageService $imageService,
         Request $request,

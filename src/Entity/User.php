@@ -35,10 +35,14 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rent::class)]
+    private $rents;
+
     public function __construct()
     {
         $this->cars = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->rents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +165,36 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rent>
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getUser() === $this) {
+                $rent->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
@@ -43,9 +45,13 @@ class Car extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     private $createdUser;
 
+    #[ORM\OneToMany(mappedBy: 'car', targetEntity: Rent::class)]
+    private $rents;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->rents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,6 +175,36 @@ class Car extends AbstractEntity
     public function setCreatedUser(?User $createdUser): self
     {
         $this->createdUser = $createdUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rent>
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->removeElement($rent)) {
+            // set the owning side to null (unless already changed)
+            if ($rent->getCar() === $this) {
+                $rent->setCar(null);
+            }
+        }
 
         return $this;
     }

@@ -41,11 +41,11 @@ class FileManager
     public function upload(UploadedFile $file): string
     {
         $fileName = $this->getFileName($file);
-        $file->move($this->targetDirectory,$fileName);
+        $file->move($this->targetDirectory, $fileName);
         $filePath = $this->targetDirectory . $fileName;
         $filePut = $this->s3Put($fileName, $filePath);
         unlink($filePath);
-        $fileUrl =  $filePut->get('ObjectURL');
+        $fileUrl = $filePut->get('ObjectURL');
         return $this->getRelativePath($fileUrl);
     }
 
@@ -63,14 +63,14 @@ class FileManager
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        return $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        return $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
     }
 
     private function s3Put(string $key, string $filePath): Result
     {
         return $this->s3Client->putObject([
             'Bucket' => $this->bucketName,
-            'Key' => 'car/'.$key,
+            'Key' => 'car/' . $key,
             'SourceFile' => $filePath,
         ]);
     }

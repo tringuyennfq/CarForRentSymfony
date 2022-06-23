@@ -1,6 +1,7 @@
 
 parameters:
   s3url: '%env(S3_URL)%'
+  sqsurl: '%env(SQS_URL)%'
 services:
   _defaults:
     autowire: true
@@ -28,7 +29,14 @@ services:
         region: 'ap-southeast-1'
         credentials:
           key: '%env(S3_KEY_ID)%'
-          secret: '%env(S3_KEY_SECRET)%'
+          secret: '%env(AWS_SECRET)%'
+  Aws\Sqs\SqsClient:
+    arguments:
+      - version: 'latest'
+        region: 'ap-southeast-1'
+        credentials:
+          key: '%env(S3_KEY_ID)%'
+          secret: '%env(AWS_SECRET)%'
   App\Manager\FileManager:
     arguments:
       $targetDirectory: '%kernel.project_dir%/public/upload/image/'
