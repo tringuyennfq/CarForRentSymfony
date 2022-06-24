@@ -12,9 +12,9 @@ services:
       - '../src/DependencyInjection/'
       - '../src/Entity/'
       - '../src/Kernel.php'
-  App\EventListener\ExceptionListener:
-    tags:
-      - { name: kernel.event_listener, event: kernel.exception }
+#  App\EventListener\ExceptionListener:
+#    tags:
+#      - { name: kernel.event_listener, event: kernel.exception }
   acme_api.event.authentication_failure_listener:
     class: App\EventListener\AuthenticationFailureListener
     tags:
@@ -41,3 +41,10 @@ services:
     arguments:
       $targetDirectory: '%kernel.project_dir%/public/upload/image/'
       $bucketName: '%env(S3_BUCKET_NAME)%'
+  App\Service\MailService:
+    arguments:
+      $host: '%env(ZOHO_HOST)%'
+      $username: '%env(ZOHO_USERNAME)%'
+      $password: '%env(ZOHO_PASSWORD)%'
+      $port: '%env(ZOHO_PORT)%'
+      $name: '%env(ZOHO_NAME)%'

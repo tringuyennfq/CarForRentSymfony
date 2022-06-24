@@ -4,14 +4,12 @@ namespace App\EventListener;
 
 use App\Traits\JsonResponseTrait;
 use Aws\S3\Exception\S3Exception;
-use Exception;
 use InvalidArgumentException;
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
 class ExceptionListener
@@ -25,18 +23,17 @@ class ExceptionListener
 
         if ($exception instanceof HttpExceptionInterface) {
             $response = $this->error($exception->getMessage(), $exception->getStatusCode());
-        }
-        else if ($exception instanceof ValidatorException) {
+        } elseif ($exception instanceof ValidatorException) {
             $response = $this->error('Bad request', $exception->getCode());
-        }
-        else if ($exception instanceof S3Exception) {
+        } elseif ($exception instanceof S3Exception) {
             $response = $this->error('S3 upload error', $exception->getCode());
-        }
-        else if ($exception instanceof FileException) {
+        } elseif ($exception instanceof FileException) {
             $response = $this->error('File upload error', $exception->getCode());
-        }
-        else if ($exception instanceof InvalidArgumentException) {
+        } elseif ($exception instanceof InvalidArgumentException) {
             $response = $this->error($exception->getMessage(), $exception->getCode());
+        } elseif ($exception instanceof PHPMailerException) {
+            $response = $this->error('PHPMailer Error');
+
         }
         $event->setResponse($response);
     }
