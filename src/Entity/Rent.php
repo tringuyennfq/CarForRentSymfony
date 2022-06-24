@@ -6,7 +6,7 @@ use App\Repository\RentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RentRepository::class)]
-class Rent
+class Rent extends AbstractEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,6 +35,14 @@ class Rent
     #[ORM\ManyToOne(targetEntity: Car::class, inversedBy: 'rents')]
     #[ORM\JoinColumn(nullable: false)]
     private $car;
+
+    public function __construct()
+    {
+        $date = new \DateTimeImmutable();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
+        $this->status = 'Pending';
+    }
 
     public function getId(): ?int
     {

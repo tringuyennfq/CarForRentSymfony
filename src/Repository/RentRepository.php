@@ -14,30 +14,25 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Rent[]    findAll()
  * @method Rent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RentRepository extends ServiceEntityRepository
+class RentRepository extends BaseRepository
 {
+    const RENT_ALIAS = 'r';
+
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Rent::class);
+        parent::__construct($registry, Rent::class, static::RENT_ALIAS);
     }
 
-    public function add(Rent $entity, bool $flush = false): void
+    public function findNewestRent(int $carId)
     {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $qb = $this->createQueryBuilder(static::RENT_ALIAS);
+        $qb = $this->filter($qb, 'car', $carId);
+        $qb = $this->sortBy($qb, 'updatedAt', 'desc');
+        $qb->setMaxResults(1);
+        return $qb->getQuery()->getResult();
     }
 
-    public function remove(Rent $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 
 //    /**
 //     * @return Rent[] Returns an array of Rent objects
